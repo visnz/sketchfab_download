@@ -73,9 +73,11 @@ def parse(url, output_path):
         data = unescape(soup.find(id = 'js-dom-data-prefetched-data').string)
         data = json.loads(data)
         model_id = urlparse(url).path.split('/')[2].split('-')[-1]
+        model_folder_name = urlparse(url).path.split('/')[2]
         model_name = _validate_name(urllib.parse.quote(data['/i/models/' + model_id]['name']))
         # save_path (保存目录的名字去除中间空格)
-        dir_name = ''.join(model_name.split()).lower()
+        # dir_name = ''.join(model_name.split()).lower()
+        dir_name = ''.join(model_folder_name)
         failed_download_url_list = []
         save_dir_path = os.path.join(output_path, dir_name)
         download_dir_path = save_dir_path + "_temp"
@@ -89,7 +91,7 @@ def parse(url, output_path):
         # textures
         textures = data['/i/models/' + model_id + '/textures?optimized=1']['results']
         print('开始下载缩略图...')
-        _download(thumbnail_url, os.path.join(download_dir_path, 'thumbnail.jpg'))
+        _download(thumbnail_url, os.path.join(download_dir_path, 'sketchfab_thumbnail_'+model_folder_name+'.jpg'))
         print('开始下载模型数据...')
         if _download(osgjs_url, os.path.join(download_dir_path, 'file.osgjs')) == False:
             return False

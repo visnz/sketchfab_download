@@ -10,7 +10,7 @@ import argparse
 cp = os.path.dirname(os.path.abspath(__file__))               # 当前脚本目录
 py = "\\../bin/py/python.exe"                                 # 已带有py环境
 download_dir = cp                                             # 下载保存的目录
-output_dir = os.path.join(os.path.expanduser('~'), "Desktop") # 最终保存到桌面
+output_dir = os.path.join(os.path.expanduser('~'), "D:\\sketchfab_dl") # 最终保存到指定地址
 custom_dir = "sketchfab_outputs"                              # 如果下载完成没目录, 则默认创建该目录 "output_dir/custom_dir"
 # ------------------------------------------
 def call(cmd, retry_time = 1):
@@ -22,7 +22,7 @@ def call(cmd, retry_time = 1):
             print("err returnCode:", returnCode)
             if retry_time <= 0:
                 os.system("color c")
-                os.system("pause")
+                # os.system("pause")
                 sys.exit(returnCode)
         else:
             break
@@ -37,7 +37,7 @@ def err_exit(msg, returnCode = 1):
     print("++++++++++++++++++++++++++++++++++++++++++++")
     os.system(f"echo {chr(27)}[0m")
     os.system("color c")
-    os.system("pause")
+    # os.system("pause")
     sys.exit(returnCode)
 
 def download_model(url):
@@ -114,8 +114,9 @@ def main(url):
 
 if __name__ == '__main__':
     os.chdir(cp) # .bat运行时 切换当前工作环境和脚本是同一个目录下
-    print("请输入网址:")
-    input_url = sys.stdin.readline()
+    # print("请输入网址:")
+    # input_url = sys.stdin.readline()
+    input_url = sys.argv[1]
     input_url = input_url.strip()
     if input_url and input_url.find('sketchfab') != -1:
         main(input_url)
