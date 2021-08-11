@@ -249,7 +249,7 @@ header_comment = \
 
 # This func can be called with just the filename
 def write(filename, batch_objects = None, \
-		EXP_OBS_SELECTED =			True,
+		EXP_OBS_SELECTED =			False,
 		EXP_MESH =					True,
 		EXP_MESH_APPLY_MOD =		True,
 		EXP_MESH_HQ_NORMALS =		False,
