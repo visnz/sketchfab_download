@@ -49,6 +49,9 @@ def _download(url, filename, retry_times = 3):
             os.remove(filename)
         with open(filename, 'wb') as file:
             print("Downloading Url:", url)
+            if url.endswith("binz"):
+                print("检测到binz文件 中断下载")
+                return False
             file.write(requests.get(url, headers=HEADERS, timeout=30).content)
         if os.path.getsize(filename) < 10: # 小于10字节认为下载失败
             if retry_times > 0:
@@ -88,7 +91,8 @@ def parse(url, output_path):
         print('开始下载缩略图...')
         _download(thumbnail_url, os.path.join(download_dir_path, 'thumbnail.jpg'))
         print('开始下载模型数据...')
-        _download(osgjs_url, os.path.join(download_dir_path, 'file.osgjs'))
+        if _download(osgjs_url, os.path.join(download_dir_path, 'file.osgjs')) == False:
+            return False
         print('开始下载模型...')
         _download(model_file_url, os.path.join(download_dir_path, 'model_file.bin.gz'))
         cnt = 0
@@ -116,6 +120,7 @@ def parse(url, output_path):
             for failed_url in failed_download_url_list:
                 print(failed_url)
             print("========================================\n")
+        return True    
     except AttributeError:
         raise
         return False
@@ -124,7 +129,8 @@ def main(args):
     if args.url:
         cwd = os.getcwd()
         os.chdir(args.output)
-        parse(args.url, args.output)
+        if parse(args.url, args.output) == False:
+            sys.exit(1)
         os.chdir(cwd)
     else:
         print("未使用 -u 参数传入url")
