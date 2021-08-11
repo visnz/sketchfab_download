@@ -14,7 +14,7 @@ def work():
     save_path = output_dir + os.sep + fn
     if os.path.exists(save_path):
         os.remove(save_path)
-    export_fbx.write_ui(save_path)
+    export_fbx.write(save_path)
     sys.exit() # 关掉当前blender窗口
 
 if __name__ == '__main__':
